@@ -1,0 +1,2 @@
+class DeepMergeException(Exception):
+    pass

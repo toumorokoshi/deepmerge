@@ -1,0 +1,48 @@
+#!/usr/bin/env python
+# warmup should be added into everyone's root level repository. warmup will:
+# * download and set up a virtualenv
+# * install uranium
+# * run uranium
+import os
+
+ROOT = os.path.dirname(__file__)
+URANIUM_PATH = os.getenv('URANIUM_PATH', None)
+URANIUM_GITHUB_ACCOUNT = os.getenv('URANIUM_GITHUB_ACCOUNT', 'toumorokoshi')
+URANIUM_GITHUB_BRANCH = os.getenv('URANIUM_GITHUB_BRANCH', 'master')
+URANIUM_STANDALONE_URL = "https://raw.githubusercontent.com/{account}/uranium/{branch}/uranium/scripts/uranium_standalone".format(account=URANIUM_GITHUB_ACCOUNT, branch=URANIUM_GITHUB_BRANCH)
+CACHE_DIRECTORY = os.path.join(ROOT, ".uranium")
+CACHED_URANIUM_STANDALONE = os.path.join(CACHE_DIRECTORY, "uranium_standalone")
+
+
+def get_cached_standalone():
+    if not os.path.isfile(CACHED_URANIUM_STANDALONE):
+        return None
+    with open(CACHED_URANIUM_STANDALONE) as fh:
+        return fh.read()
+
+
+def store_cached_standalone(body):
+    if not os.path.exists(CACHE_DIRECTORY):
+        os.makedirs(CACHE_DIRECTORY)
+    with open(CACHED_URANIUM_STANDALONE, "wb+") as fh:
+        fh.write(body)
+
+cached_standalone = get_cached_standalone()
+
+if URANIUM_PATH is not None:
+    print("Executing uranium from " + URANIUM_PATH)
+    execfile(os.path.realpath(URANIUM_PATH))
+elif cached_standalone is not None:
+    exec(cached_standalone)
+else:
+    print("Downloading uranium from " + URANIUM_STANDALONE_URL)
+    try:
+        from urllib2 import urlopen as urlopen
+    except:
+        from urllib.request import urlopen as urlopen
+
+    print("loading uranium bootstrapper...")
+    body = urlopen(URANIUM_STANDALONE_URL).read()
+    print("caching standalone uranium script...")
+    store_cached_standalone(body)
+    exec(body)
