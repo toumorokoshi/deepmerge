@@ -11,7 +11,7 @@ class ValueStrategies(StrategyList):
 
     @staticmethod
     def strategy_merge(merger, path, base, nxt):
-        if not isinstance(base, nxt) or isinstance(nxt, base):
+        if not (isinstance(base, type(nxt)) or isinstance(nxt, type(base))):
             return merger.type_conflict_strategy(path, base, nxt)
         if isinstance(base, dict):
             return merger.dict_strategy(path, base, nxt)

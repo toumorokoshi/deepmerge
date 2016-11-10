@@ -7,7 +7,6 @@ STRATEGY_END = object()
 class StrategyList(object):
 
     NAME = None
-    STRATEGY_MAP = None
 
     def __init__(self, strategy_list):
         self._strategies = [
@@ -15,7 +14,7 @@ class StrategyList(object):
         ]
 
     @classmethod
-    def _expand_strategy(cls, strategy, strategy_dict):
+    def _expand_strategy(cls, strategy):
         """
         given a list strategy_list,
         match the appropriate strategy in the dict, or leave it
