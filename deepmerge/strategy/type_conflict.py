@@ -1,6 +1,10 @@
-def override(config, path, base, nxt):
-    return nxt
+from .core import StrategyList
 
-TYPE_CONFLICT_STRATEGIES = {
-    "override": override
-}
+
+class TypeConflictStrategies(StrategyList):
+
+    NAME = "type conflict"
+
+    @staticmethod
+    def strategy_override(config, path, base, nxt):
+        return nxt

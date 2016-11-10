@@ -1,16 +1,18 @@
-def override(config, path, base, nxt):
-    return nxt
+from .core import StrategyList
 
 
-def prepend(config, path, base, nxt):
-    return nxt + base
+class ListStrategies(StrategyList):
 
+    NAME = "list"
 
-def append(config, path, base, nxt):
-    return base + nxt
+    @staticmethod
+    def strategy_override(config, path, base, nxt):
+        return nxt
 
-LIST_STRATEGIES = {
-    "override": override,
-    "prepend": prepend,
-    "append": append
-}
+    @staticmethod
+    def strategy_prepend(config, path, base, nxt):
+        return nxt + base
+
+    @staticmethod
+    def strategy_append(config, path, base, nxt):
+        return base + nxt

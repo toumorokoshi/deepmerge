@@ -1,18 +1,19 @@
-def merge(config, path, base, nxt):
-    for k, v in nxt.items():
-        if k not in base:
-            base[k] = v
-        else:
-            new_path = path + "." + k
-            base[k] = config.value_strategy(new_path, base[k], v)
-    return base
+from .core import StrategyList
 
 
-def override(config, path, base, nxt):
-    return nxt
+class DictStrategies(StrategyList):
 
+    NAME = "dict"
 
-DICT_STRATEGIES = {
-    "merge": merge,
-    "override": override
-}
+    @staticmethod
+    def strategy_merge(config, path, base, nxt):
+        for k, v in nxt.items():
+            if k not in base:
+                base[k] = v
+            else:
+                base[k] = config.value_strategy(path + [k], base[k], v)
+        return base
+
+    @staticmethod
+    def strategy_override(config, path, base, nxt):
+        return nxt

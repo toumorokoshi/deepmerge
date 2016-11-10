@@ -1,21 +1,20 @@
-from .core import STRATEGY_END
+from .core import STRATEGY_END, StrategyList
 
 
-def override(merger, path, base, nxt):
-    return nxt
+class ValueStrategies(StrategyList):
 
+    NAME = "value"
 
-def merge(merger, path, base, nxt):
-    if not isinstance(base, nxt) or isinstance(nxt, base):
-        return merger.type_conflict(path, base, nxt)
-    if isinstance(base, dict):
-        return merger.dict_strategy(path, base, nxt)
-    if isinstance(base, list):
-        return merger.list_strategy(path, base, nxt)
-    return STRATEGY_END
+    @staticmethod
+    def strategy_override(merger, path, base, nxt):
+        return nxt
 
-
-VALUE_STRATEGIES = {
-    "override": override,
-    "merge": merge
-}
+    @staticmethod
+    def strategy_merge(merger, path, base, nxt):
+        if not isinstance(base, nxt) or isinstance(nxt, base):
+            return merger.type_conflict_strategy(path, base, nxt)
+        if isinstance(base, dict):
+            return merger.dict_strategy(path, base, nxt)
+        if isinstance(base, list):
+            return merger.list_strategy(path, base, nxt)
+        return STRATEGY_END

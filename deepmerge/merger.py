@@ -1,7 +1,7 @@
-from .strategy.value import VALUE_STRATEGIES
-from .strategy.list import LIST_STRATEGIES
-from .strategy.dict import DICT_STRATEGIES
-from .strategy.type_conflict import TYPE_CONFLICT_STRATEGIES
+from .strategy.value import ValueStrategies
+from .strategy.list import ListStrategies
+from .strategy.dict import DictStrategies
+from .strategy.type_conflict import TypeConflictStrategies
 
 
 class Merger(object):
@@ -11,22 +11,15 @@ class Merger(object):
                  list_strategies,
                  dict_strategies,
                  type_conflict_strategies):
-        self._value_strategies = value_strategies
-        self._
-        pass
+        self.value_strategy = ValueStrategies(value_strategies)
+        self.list_strategy = ListStrategies(list_strategies)
+        self.dict_strategy = DictStrategies(dict_strategies)
+        self.type_conflict_strategy = TypeConflictStrategies(
+            type_conflict_strategies
+        )
 
-    def merge(base, nxt):
-        return self.value_strategy("", base, nxt)
-
-    def value_strategy(self, base, nxt):
-        pass
-
-    @staticmethod
-    def _expand_strategies(strategy_list, strategy_dict):
-        """
-        given a list strategy_list,
-        match the
-
+    def merge(self, base, nxt):
+        return self.value_strategy(self, [], base, nxt)
 
 
 always_merger = Merger()
