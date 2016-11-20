@@ -9,6 +9,8 @@ class StrategyList(object):
     NAME = None
 
     def __init__(self, strategy_list):
+        if not isinstance(strategy_list, list):
+            strategy_list = [strategy_list]
         self._strategies = [
             self._expand_strategy(s) for s in strategy_list
         ]
