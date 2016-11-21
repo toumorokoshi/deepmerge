@@ -28,6 +28,10 @@ example
         # the case where the types conflict:
         ["override"]
     )
+    base = {"foo": ["bar"]}
+    next = {"bar": "baz"}
+    my_merger.merge(base, next)
+    assert base == {"foo": ["bar"], "bar": "baz"}
 
 Strategies are passed as a list, and the
 merge runs through each strategy sequentially,
