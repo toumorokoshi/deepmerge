@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 base = os.path.dirname(os.path.abspath(__file__))
 
-README_PATH = os.path.join(base, "README.md")
+README_PATH = os.path.join(base, "README.rst")
 
 install_requires = [
 ]
@@ -12,7 +12,7 @@ install_requires = [
 tests_require = []
 
 setup(name='deepmerge',
-      version='0.0.1b',
+      version='0.0.1',
       description='a toolset to deeply merge python dictionaries.',
       long_description=open(README_PATH).read(),
       author='Yusuke Tsutsumi',

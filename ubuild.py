@@ -18,7 +18,7 @@ def test(build):
     ] + build.options.args)
 
 
-def distribute(build):
+def publish(build):
     """ distribute the uranium package """
     build.packages.install("wheel")
     build.executables.run([
