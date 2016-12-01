@@ -29,6 +29,7 @@ def publish(build):
 
 def build_docs(build):
     build.packages.install("sphinx")
+    build.packages.install("sphinx_rtd_theme")
     return subprocess.call(
         ["make", "html"], cwd=os.path.join(build.root, "docs")
     )
