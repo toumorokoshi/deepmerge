@@ -12,7 +12,7 @@ install_requires = [
 tests_require = []
 
 setup(name='deepmerge',
-      version='0.0.2',
+      version='0.0.4b',
       description='a toolset to deeply merge python dictionaries.',
       long_description=open(README_PATH).read(),
       author='Yusuke Tsutsumi',
