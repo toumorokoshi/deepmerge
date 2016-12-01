@@ -41,7 +41,7 @@ Example
 The Merger Class
 ----------------
 
-The deepmerge.Merger class enacts the merging strategy,
+The :class:`deepmerge.merger.Merger` class enacts the merging strategy,
 and stores the configuration about the merging strategy chosen.
 
 The merger takes a list of a combination of strings or functions,
@@ -53,7 +53,7 @@ strategy first, and attempt the merge strategy if append is not able
 to merge the structures.
 
 If none of the strategies were able to merge the structures (or if non
-exists), a deepmerge.exception.InvalidMerge exception is raised.
+exists), a :py:exc:`deepmerge.exception.InvalidMerge` exception is raised.
 
 ----------
 Strategies
@@ -107,7 +107,9 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   index
    strategies
+   api
 
 
 
