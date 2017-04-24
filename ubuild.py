@@ -23,7 +23,7 @@ def publish(build):
     build.packages.install("wheel")
     build.executables.run([
         "python", "setup.py",
-        "sdist", "bdist_wheel", "--universal", "upload"
+        "sdist", "bdist_wheel", "--universal", "upload", "--release"
     ])
 
 

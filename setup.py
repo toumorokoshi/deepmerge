@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 import os
+import sys
+is_release = False
+if "--release" in sys.argv:
+    sys.argv.remove("--release")
+    is_release = True
 from setuptools import setup, find_packages
 
 base = os.path.dirname(os.path.abspath(__file__))
@@ -12,7 +17,8 @@ install_requires = [
 tests_require = []
 
 setup(name='deepmerge',
-      version='0.0.4b',
+      setup_requires=["vcver"],
+      vcver={"is_release": is_release, "path": base},
       description='a toolset to deeply merge python dictionaries.',
       long_description=open(README_PATH).read(),
       author='Yusuke Tsutsumi',
