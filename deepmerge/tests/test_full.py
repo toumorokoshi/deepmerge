@@ -1,6 +1,7 @@
 import pytest
 from deepmerge import (
     always_merger,
+    conservative_merger,
     merge_or_raise,
 )
 
@@ -30,3 +31,11 @@ def test_merge_or_raise_raises_exception():
     }
     with pytest.raises(Exception):
         merge_or_raise.merge(base, nxt)
+
+
+@pytest.mark.parametrize("base, nxt, expected", [
+    ("dooby", "fooby", "dooby"),
+    (-10, "goo", -10)
+])
+def test_use_existing(base, nxt, expected):
+    assert conservative_merger.merge(base, nxt) == expected

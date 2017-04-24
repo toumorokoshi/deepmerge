@@ -18,3 +18,15 @@ merge_or_raise = Merger(
     ],
     [], []
 )
+
+# a conservative merge tactic:
+# for data structures with a specific
+# strategy, keep the existing value.
+conservative_merger = Merger(
+    [
+        (list, "append"),
+        (dict, "merge")
+    ],
+    ["use_existing"],
+    ["use_existing"]
+)
