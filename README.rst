@@ -5,6 +5,16 @@ deepmerge
 A tools to handle merging of
 nested data structures in python.
 
+------------
+Installation
+------------
+
+deepmerge is available on `pypi <https://pypi.python.org/>`_:
+
+.. code-block:: bash
+
+   pip install deepmerge
+
 -------
 example
 -------
