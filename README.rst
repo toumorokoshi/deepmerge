@@ -58,6 +58,9 @@ merger. However, some very generic mergers are supplied:
 * ``always_merger``: will never raise a merge exception, and
   will merge when possible.
 
+* ``conservative_merger``: will never raise a merge exception and will use the original
+  value when a conflict occurs.
+
 * ``merge_or_raise``: will merge when possible, raise an exception
   when there is a conflict.
 
