@@ -82,3 +82,12 @@ merger. However, some very generic mergers are supplied:
   when there is a conflict.
 
 The best resource for now is the unit tests.
+
+-----
+Tests
+-----
+
+.. code-block:: shell
+
+    $ pip install pytest
+    $ pytest deepmerge/tests/
