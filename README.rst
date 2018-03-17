@@ -19,6 +19,23 @@ deepmerge is available on `pypi <https://pypi.python.org/>`_:
 Example
 -------
 
+**Generic Strategy**
+
+.. code-block:: python
+
+    from deepmerge import always_merger
+
+    base = {"foo": ["bar"]}
+    next = {"foo": ["baz"]}
+
+    expected_result = {'foo': ['bar', 'baz']}
+    result = always_merger.merge(base, next)
+
+    assert expected_result == result
+
+
+**Custom Strategy**
+
 .. code-block:: python
 
     from deepmerge import Merger
