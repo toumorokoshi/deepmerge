@@ -16,8 +16,25 @@ deepmerge is available on `pypi <https://pypi.python.org/>`_:
    pip install deepmerge
 
 -------
-example
+Example
 -------
+
+**Generic Strategy**
+
+.. code-block:: python
+
+    from deepmerge import always_merger
+
+    base = {"foo": ["bar"]}
+    next = {"foo": ["baz"]}
+
+    expected_result = {'foo': ['bar', 'baz']}
+    result = always_merger.merge(base, next)
+
+    assert expected_result == result
+
+
+**Custom Strategy**
 
 .. code-block:: python
 
@@ -49,16 +66,28 @@ and raises an exception if none are able to resolve
 the merge.
 
 You can also pass in your own merge functions, instead of a string.
-Your function should take the arguments of (merger, path, base_value, value_to_merge_in).
+Your function should take the arguments of (``merger``, ``path``, ``base_value``, ``value_to_merge_in``).
 
 A default merge does not exist, due to the
 numerous choices that have to be made for every
 merger. However, some very generic mergers are supplied:
 
-* always_merger: will never raise a merge exception, and
+* ``always_merger``: will never raise a merge exception, and
   will merge when possible.
 
-* merge_or_raise: will merge when possible, raise an exception
+* ``conservative_merger``: will never raise a merge exception and will use the original
+  value when a conflict occurs.
+
+* ``merge_or_raise``: will merge when possible, raise an exception
   when there is a conflict.
 
 The best resource for now is the unit tests.
+
+-----
+Tests
+-----
+
+.. code-block:: shell
+
+    $ pip install pytest
+    $ pytest deepmerge/tests/
