@@ -18,9 +18,12 @@ class StrategyList(object):
     @classmethod
     def _expand_strategy(cls, strategy):
         """
-        given a list strategy_list,
-        match the appropriate strategy in the dict, or leave it
-        if it is a function.
+        :param strategy: string or function
+
+        If the strategy is a string, attempt to resolve it
+        among the built in strategies.
+
+        Otherwise, return the value, implicitly assuming it's a function.
         """
         if isinstance(strategy, string_type):
             method_name = "strategy_{0}".format(strategy)

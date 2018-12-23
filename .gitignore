@@ -92,3 +92,4 @@ ENV/
 bin
 include
 VERSION
+pip-selfcheck.json
