@@ -72,6 +72,7 @@ the sentinel value deepmerge.STRATEGY_END.
 For example, this function would not be considered valid for any base value besides the string "foo":
 
 .. code-block:: python
+
   from deepmerge import STRATEGY_END
 
   def return_true_if_foo(config, path, base, nxt):
