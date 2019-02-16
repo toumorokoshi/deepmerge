@@ -39,3 +39,17 @@ def test_merge_or_raise_raises_exception():
 ])
 def test_use_existing(base, nxt, expected):
     assert conservative_merger.merge(base, nxt) == expected
+
+def test_example():
+    base = {"foo": "value", "baz": ["a"]}
+    next = {"bar": "value2", "baz": ["b"]}
+
+    always_merger.merge(base, next)
+
+    assert base == {
+        "foo": "value",
+        "bar": "value2",
+        "baz": ["a", "b"]
+    }
+
+     

@@ -9,9 +9,33 @@ Deepmerge: merging nested data structures
 Deepmerge is a flexible library to handle merging of
 nested data structures in Python (e.g. lists, dicts).
 
+It is available on `pypi <https://pypi.org/project/deepmerge/>`_, and
+can be installed via pip:
+
+.. code-block:: bash
+
+    pip install deepmerge
+
 -------
 Example
 -------
+
+**Generic Strategy**
+
+.. code-block:: python
+
+    from deepmerge import always_merger
+
+    base = {"foo": ["bar"]}
+    next = {"foo": ["baz"]}
+
+    expected_result = {'foo': ['bar', 'baz']}
+    result = always_merger.merge(base, next)
+
+    assert expected_result == result
+
+
+**Custom Strategy**
 
 .. code-block:: python
 
@@ -37,77 +61,14 @@ Example
     my_merger.merge(base, next)
     assert base == {"foo": ["bar"], "bar": "baz"}
 
-----------------
-The Merger Class
-----------------
-
-The :class:`deepmerge.merger.Merger` class enacts the merging strategy,
-and stores the configuration about the merging strategy chosen.
-
-The merger takes a list of a combination of strings or functions,
-which are expanded into strategies that are attempted in the order in
-the list.
-
-For example, a list of ["append", "merge"] will attempt the "append"
-strategy first, and attempt the merge strategy if append is not able
-to merge the structures.
-
-If none of the strategies were able to merge the structures (or if non
-exists), a :py:exc:`deepmerge.exception.InvalidMerge` exception is raised.
-
-----------
-Strategies
-----------
-
-The merger class alone does not make any decisions around merging the
-code. This is instead deferred to the strategies themselves.
-
-Built-in Strategies
-===================
-
-If you name a strategy with a string, it will attempt to match that with
-the merge strategies that are built into deepmerge. You can see a list
-of which strategies exist for which types in the API docs.
-
-Custom Strategies
-=================
-
-Strategies are functions that satisfy the following properties:
-
-* have the function signature (config, path, base, nxt)
-* return the merged object, or None.
-
-Example:
-
-.. code-block:: python
-
-   def append_last_element(config, path, base, nxt):
-       """ a list strategy to append the last element of nxt only. """
-       if len(nxt) > 0:
-          base.append(nxt[-1])
-          return base
-
-If a strategy fails, an exception should not be raised. This is to
-ensure it can be chained with other strategies, or the fall-back.
-
-----------------
-Provided Mergers
-----------------
-
-Merge strategies vary wildly depending on the purpose, and thus it's
-recommended to construct your own.
-
-However, a few mergers are provided as a convenience. these are:
-
-
-
+Want to get started? see the :doc:`./guide`
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
 
-   index
+   guide
    strategies
    api
 
