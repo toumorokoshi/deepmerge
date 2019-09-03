@@ -15,3 +15,8 @@ class TypeConflictStrategies(StrategyList):
     def strategy_use_existing(config, path, base, nxt):
         """ overrides the new object over the old object """
         return base
+
+    @staticmethod
+    def strategy_override_if_not_empty(config, path, base, nxt):
+        """ overrides the new object over the old object """
+        return nxt if nxt else base
