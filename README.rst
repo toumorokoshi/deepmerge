@@ -2,6 +2,8 @@
 deepmerge
 =========
 
+.. image:: https://travis-ci.org/toumorokoshi/deepmerge.svg?branch=master
+
 A tools to handle merging of
 nested data structures in python.
 
@@ -71,5 +73,4 @@ Tests
 
 .. code-block:: shell
 
-    $ pip install pytest
-    $ pytest deepmerge/tests/
+    $ ./uranium test # runs pytest under the hood
