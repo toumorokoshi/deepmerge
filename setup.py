@@ -24,7 +24,7 @@ setup(name='deepmerge',
       author='Yusuke Tsutsumi',
       author_email='yusuke@tsutsumi.io',
       url='http://deepmerge.readthedocs.io/en/latest/',
-      packages=find_packages(),
+      packages=find_packages(exclude=['tests*', '*.tests*']),
       install_requires=install_requires,
       classifiers=[
           'Development Status :: 3 - Alpha',
