@@ -37,6 +37,4 @@ class StrategyList(object):
             ret_val = s(*args, **kwargs)
             if ret_val is not STRATEGY_END:
                 return ret_val
-        raise InvalidMerge("no more strategies found for {0} and arguments {1}, {2}".format(
-            self.NAME, args, kwargs
-        ))
+        raise InvalidMerge(self.NAME, args, kwargs)
