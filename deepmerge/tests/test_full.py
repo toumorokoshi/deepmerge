@@ -1,4 +1,7 @@
+from deepmerge.exception import *
 import pytest
+
+
 from deepmerge import (
     always_merger,
     conservative_merger,
@@ -29,8 +32,12 @@ def test_merge_or_raise_raises_exception():
         "bar": 1,
         "foo": "a string!"
     }
-    with pytest.raises(Exception):
+    with pytest.raises(InvalidMerge, match=r"^no more strategies found for type conflict and arguments \(<deepmerge.merger.Merger object at 0x[0-9a-f]+>, \['foo'\], 0, 'a string!'\), {}$") as exc_info:
         merge_or_raise.merge(base, nxt)
+    exc = exc_info.value
+    assert exc.strategy_list_name == "type conflict"
+    assert exc.merge_args == (merge_or_raise, ["foo"], 0, "a string!")
+    assert exc.merge_kwargs == {}
 
 
 @pytest.mark.parametrize("base, nxt, expected", [
@@ -51,5 +58,3 @@ def test_example():
         "bar": "value2",
         "baz": ["a", "b"]
     }
-
-     
