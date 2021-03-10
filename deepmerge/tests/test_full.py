@@ -32,7 +32,7 @@ def test_merge_or_raise_raises_exception():
         "bar": 1,
         "foo": "a string!"
     }
-    with pytest.raises(InvalidMerge, match=r"^no more strategies found for type conflict and arguments \(<deepmerge.merger.Merger object at 0x[0-9a-f]+>, \['foo'\], 0, 'a string!'\), {}$") as exc_info:
+    with pytest.raises(InvalidMerge) as exc_info:
         merge_or_raise.merge(base, nxt)
     exc = exc_info.value
     assert exc.strategy_list_name == "type conflict"
