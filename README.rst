@@ -2,7 +2,7 @@
 deepmerge
 =========
 
-.. image:: https://travis-ci.org/toumorokoshi/deepmerge.svg?branch=masterhttps://travis-ci.org/toumorokoshi/deepmerge.svg?branch=master
+.. image:: https://travis-ci.org/toumorokoshi/deepmerge.svg?branch=master
     :target: https://travis-ci.org/toumorokoshi/deepmerge
 
 A tools to handle merging of
