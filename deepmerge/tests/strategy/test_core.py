@@ -1,6 +1,7 @@
 from deepmerge.strategy.core import StrategyList
 from deepmerge import STRATEGY_END
 
+
 def return_true_if_foo(config, path, base, nxt):
     if base == "foo":
         return True
@@ -18,7 +19,6 @@ def test_single_value_allowed():
 
     sl = StrategyList(strat)
     assert sl("foo") == "foo"
-
 
 
 def test_first_working_strategy_is_used():

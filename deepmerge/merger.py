@@ -1,5 +1,6 @@
 from .strategy.list import ListStrategies
 from .strategy.dict import DictStrategies
+from .strategy.set import SetStrategies
 from .strategy.type_conflict import TypeConflictStrategies
 from .strategy.fallback import FallbackStrategies
 
@@ -12,7 +13,8 @@ class Merger(object):
 
     PROVIDED_TYPE_STRATEGIES = {
         list: ListStrategies,
-        dict: DictStrategies
+        dict: DictStrategies,
+        set: SetStrategies
     }
 
     def __init__(self,
