@@ -23,6 +23,23 @@ def test_fill_missing_value():
     }
 
 
+def test_handles_set_values_via_union():
+    base = {
+        "a": set('123'),
+        "b": 3
+    }
+    nxt = {
+        "a": set('2345'),
+        "c": 1
+    }
+    always_merger.merge(base, nxt)
+    assert base == {
+        "a": set('12345'),
+        "b": 3,
+        "c": 1
+    }
+
+
 def test_merge_or_raise_raises_exception():
     base = {
         "foo": 0,
@@ -46,6 +63,7 @@ def test_merge_or_raise_raises_exception():
 ])
 def test_use_existing(base, nxt, expected):
     assert conservative_merger.merge(base, nxt) == expected
+
 
 def test_example():
     base = {"foo": "value", "baz": ["a"]}
