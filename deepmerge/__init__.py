@@ -1,4 +1,5 @@
 from .merger import Merger
+from .strategy.core import STRATEGY_END  # noqa
 
 # some standard mergers available
 
