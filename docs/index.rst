@@ -47,7 +47,8 @@ Example
         # to each type.
         [
             (list, ["append"]),
-            (dict, ["merge"])
+            (dict, ["merge"]),
+            (set, ["union"])
         ],
         # next, choose the fallback strategies,
         # applied to all other types:

@@ -1,17 +1,20 @@
 from .merger import Merger
-from .strategy.core import STRATEGY_END
+from .strategy.core import STRATEGY_END  # noqa
 
 # some standard mergers available
+
+DEFAULT_TYPE_SPECIFIC_MERGE_STRATEGIES = [
+    (list, "append"),
+    (dict, "merge"),
+    (set, "union")
+]
 
 # this merge will never raise an exception.
 # in the case of type mismatches,
 # the value from the second object
 # will override the previous one.
 always_merger = Merger(
-    [
-        (list, "append"),
-        (dict, "merge")
-    ],
+    DEFAULT_TYPE_SPECIFIC_MERGE_STRATEGIES,
     ["override"],
     ["override"]
 )
@@ -21,10 +24,7 @@ always_merger = Merger(
 # if possible, but raises an exception
 # in the case of type conflicts.
 merge_or_raise = Merger(
-    [
-        (list, "append"),
-        (dict, "merge")
-    ],
+    DEFAULT_TYPE_SPECIFIC_MERGE_STRATEGIES,
     [], []
 )
 
@@ -35,10 +35,7 @@ merge_or_raise = Merger(
 # keeps existing values when faced
 # with a type conflict.
 conservative_merger = Merger(
-    [
-        (list, "append"),
-        (dict, "merge")
-    ],
+    DEFAULT_TYPE_SPECIFIC_MERGE_STRATEGIES,
     ["use_existing"],
     ["use_existing"]
 )
