@@ -25,6 +25,7 @@ setup(
     author="Yusuke Tsutsumi",
     author_email="yusuke@tsutsumi.io",
     url="http://deepmerge.readthedocs.io/en/latest/",
+    python_requires=">=3",
     packages=find_packages(exclude=["tests*", "*.tests*"]),
     install_requires=install_requires,
     classifiers=[
