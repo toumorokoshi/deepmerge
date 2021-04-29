@@ -22,3 +22,8 @@ class ListStrategies(StrategyList):
     def strategy_append(config, path, base, nxt):
         """ append nxt to base. """
         return base + nxt
+
+    @staticmethod
+    def strategy_append_unduplicated(config, path, base, nxt):
+        """ append unduplicated items in nxt to base. """
+        return base + [n for n in nxt if n not in base]
