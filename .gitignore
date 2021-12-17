@@ -93,3 +93,4 @@ bin
 include
 VERSION
 pip-selfcheck.json
+*.egg-info
