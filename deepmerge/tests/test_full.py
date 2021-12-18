@@ -10,45 +10,22 @@ from deepmerge import (
 
 
 def test_fill_missing_value():
-    base = {
-        "foo": 0,
-        "baz": 2
-    }
-    nxt = {
-        "bar": 1
-    }
+    base = {"foo": 0, "baz": 2}
+    nxt = {"bar": 1}
     always_merger.merge(base, nxt)
-    assert base == {
-        "foo": 0, "bar": 1, "baz": 2
-    }
+    assert base == {"foo": 0, "bar": 1, "baz": 2}
 
 
 def test_handles_set_values_via_union():
-    base = {
-        "a": set('123'),
-        "b": 3
-    }
-    nxt = {
-        "a": set('2345'),
-        "c": 1
-    }
+    base = {"a": set("123"), "b": 3}
+    nxt = {"a": set("2345"), "c": 1}
     always_merger.merge(base, nxt)
-    assert base == {
-        "a": set('12345'),
-        "b": 3,
-        "c": 1
-    }
+    assert base == {"a": set("12345"), "b": 3, "c": 1}
 
 
 def test_merge_or_raise_raises_exception():
-    base = {
-        "foo": 0,
-        "baz": 2
-    }
-    nxt = {
-        "bar": 1,
-        "foo": "a string!"
-    }
+    base = {"foo": 0, "baz": 2}
+    nxt = {"bar": 1, "foo": "a string!"}
     with pytest.raises(InvalidMerge) as exc_info:
         merge_or_raise.merge(base, nxt)
     exc = exc_info.value
@@ -57,10 +34,9 @@ def test_merge_or_raise_raises_exception():
     assert exc.merge_kwargs == {}
 
 
-@pytest.mark.parametrize("base, nxt, expected", [
-    ("dooby", "fooby", "dooby"),
-    (-10, "goo", -10)
-])
+@pytest.mark.parametrize(
+    "base, nxt, expected", [("dooby", "fooby", "dooby"), (-10, "goo", -10)]
+)
 def test_use_existing(base, nxt, expected):
     assert conservative_merger.merge(base, nxt) == expected
 
@@ -71,8 +47,4 @@ def test_example():
 
     always_merger.merge(base, next)
 
-    assert base == {
-        "foo": "value",
-        "bar": "value2",
-        "baz": ["a", "b"]
-    }
+    assert base == {"foo": "value", "bar": "value2", "baz": ["a", "b"]}

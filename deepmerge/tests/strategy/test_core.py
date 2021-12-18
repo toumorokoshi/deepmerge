@@ -14,6 +14,7 @@ def always_return_custom(config, path, base, nxt):
 
 def test_single_value_allowed():
     """ """
+
     def strat(name):
         return name
 
@@ -27,10 +28,12 @@ def test_first_working_strategy_is_used():
     the first strategy which returns a valid value (i.e. not STRATEGY_END)
     should be returned.
     """
-    sl = StrategyList([
-        return_true_if_foo,
-        always_return_custom,
-    ])
+    sl = StrategyList(
+        [
+            return_true_if_foo,
+            always_return_custom,
+        ]
+    )
     # return_true_if_foo will take.
     assert sl({}, [], "foo", "bar") is True
     # return_true_if_foo will fail,

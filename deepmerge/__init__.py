@@ -6,7 +6,7 @@ from .strategy.core import STRATEGY_END  # noqa
 DEFAULT_TYPE_SPECIFIC_MERGE_STRATEGIES = [
     (list, "append"),
     (dict, "merge"),
-    (set, "union")
+    (set, "union"),
 ]
 
 # this merge will never raise an exception.
@@ -14,19 +14,14 @@ DEFAULT_TYPE_SPECIFIC_MERGE_STRATEGIES = [
 # the value from the second object
 # will override the previous one.
 always_merger = Merger(
-    DEFAULT_TYPE_SPECIFIC_MERGE_STRATEGIES,
-    ["override"],
-    ["override"]
+    DEFAULT_TYPE_SPECIFIC_MERGE_STRATEGIES, ["override"], ["override"]
 )
 
 # this merge strategies attempts
 # to merge (append for list, unify for dicts)
 # if possible, but raises an exception
 # in the case of type conflicts.
-merge_or_raise = Merger(
-    DEFAULT_TYPE_SPECIFIC_MERGE_STRATEGIES,
-    [], []
-)
+merge_or_raise = Merger(DEFAULT_TYPE_SPECIFIC_MERGE_STRATEGIES, [], [])
 
 # a conservative merge tactic:
 # for data structures with a specific
@@ -35,7 +30,5 @@ merge_or_raise = Merger(
 # keeps existing values when faced
 # with a type conflict.
 conservative_merger = Merger(
-    DEFAULT_TYPE_SPECIFIC_MERGE_STRATEGIES,
-    ["use_existing"],
-    ["use_existing"]
+    DEFAULT_TYPE_SPECIFIC_MERGE_STRATEGIES, ["use_existing"], ["use_existing"]
 )

@@ -14,11 +14,7 @@ def custom_merger():
             return base
 
     return Merger(
-        [
-            (list, merge_list),
-            (dict, "merge"),
-            (set, merge_sets)
-        ],
+        [(list, merge_list), (dict, "merge"), (set, merge_sets)],
         [],
         [],
     )

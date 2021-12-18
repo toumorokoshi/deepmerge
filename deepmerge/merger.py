@@ -14,13 +14,10 @@ class Merger(object):
     PROVIDED_TYPE_STRATEGIES = {
         list: ListStrategies,
         dict: DictStrategies,
-        set: SetStrategies
+        set: SetStrategies,
     }
 
-    def __init__(self,
-                 type_strategies,
-                 fallback_strategies,
-                 type_conflict_strategies):
+    def __init__(self, type_strategies, fallback_strategies, type_conflict_strategies):
         self._fallback_strategy = FallbackStrategies(fallback_strategies)
 
         expanded_type_strategies = []
@@ -30,9 +27,7 @@ class Merger(object):
             expanded_type_strategies.append((typ, strategy))
         self._type_strategies = expanded_type_strategies
 
-        self._type_conflict_strategy = TypeConflictStrategies(
-            type_conflict_strategies
-        )
+        self._type_conflict_strategy = TypeConflictStrategies(type_conflict_strategies)
 
     def merge(self, base, nxt):
         return self.value_strategy([], base, nxt)
