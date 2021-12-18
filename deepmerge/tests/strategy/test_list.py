@@ -6,9 +6,7 @@ from deepmerge import Merger
 @pytest.fixture
 def custom_merger():
     return Merger(
-        [
-            (list, ListStrategies.strategy_append_unique)
-        ],
+        [(list, ListStrategies.strategy_append_unique)],
         [],
         [],
     )

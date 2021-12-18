@@ -25,6 +25,6 @@ class ListStrategies(StrategyList):
 
     @staticmethod
     def strategy_append_unique(config, path, base, nxt):
-        """ append items without duplicates in nxt to base. """
+        """append items without duplicates in nxt to base."""
         base_as_set = set(base)
         return base + [n for n in nxt if n not in base_as_set]
