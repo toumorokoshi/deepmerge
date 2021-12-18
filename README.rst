@@ -2,8 +2,8 @@
 deepmerge
 =========
 
-.. image:: https://travis-ci.org/toumorokoshi/deepmerge.svg?branch=master
-    :target: https://travis-ci.org/toumorokoshi/deepmerge
+.. image:: https://github.com/toumorokoshi/deepmerge/actions/workflows/python-package.yaml/badge.svg
+    :target: https://github.com/toumorokoshi/deepmerge/actions/workflows/python-package.yaml
 
 A tools to handle merging of
 nested data structures in python.
