@@ -68,11 +68,3 @@ Example
 You can also pass in your own merge functions, instead of a string.
 
 For more information, see the `docs <https://deepmerge.readthedocs.io/en/latest/>`_
-
------
-Tests
------
-
-.. code-block:: shell
-
-    $ ./uranium test # runs pytest under the hood
