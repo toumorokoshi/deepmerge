@@ -1,5 +1,7 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm>=6.2"]
+# setuptools and setuptools_scm version are explicitly set
+# to allow support for python2
+requires = ["setuptools>=44", "wheel", "setuptools_scm>=5"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]
