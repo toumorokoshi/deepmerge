@@ -94,3 +94,4 @@ include
 VERSION
 pip-selfcheck.json
 *.egg-info
+deepmerge/_version.py
