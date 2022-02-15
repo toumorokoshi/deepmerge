@@ -9,9 +9,6 @@ build: .venv/deps
 	rm -rf ./dist/
 	.venv/bin/python -m build .
 
-upload: build .venv/deps
-	.venv/bin/python -m twine upload dist/
-
 # only works with python 3+
 lint: .venv/deps
 	.venv/bin/python -m pip install black==21.12b0
