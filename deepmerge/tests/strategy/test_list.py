@@ -20,6 +20,7 @@ def test_strategy_append_unique(custom_merger):
     actual = custom_merger.merge(base, nxt)
     assert actual == expected
 
+
 def test_strategy_append_unique_nested_dict(custom_merger):
     """append_unique should work even with unhashable objects
     Like dicts.

@@ -1,6 +1,7 @@
 from .core import StrategyList
 from ..extended_set import ExtendedSet
 
+
 class ListStrategies(StrategyList):
     """
     Contains the strategies provided for lists.

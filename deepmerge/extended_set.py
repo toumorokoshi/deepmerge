@@ -10,10 +10,7 @@ class ExtendedSet(set):
     """
 
     def __init__(self, elements):
-        self._values_by_hash = {
-            self._hash(e): e for e in elements
-        }
-
+        self._values_by_hash = {self._hash(e): e for e in elements}
 
     def _insert(self, element):
         self._values_by_hash[self._hash(element)] = element
