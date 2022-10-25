@@ -10,7 +10,7 @@ it's recommended to choose your own strategies, deepmerge does
 provided some preconfigured mergers for a common situations:
 
 * deepmerge.always_merger: always try to merge. in the case of mismatches, the value from the second object overrides the first o ne.
-* deepmerge.merge_or_raise: try to merge, raise an exception if an unmergable situation is encountered. 
+* deepmerge.merge_or_raise: try to merge, raise an exception if an unmergable situation is encountered.
 * deepmerge.conservative_merger: similar to always_merger, but in the case of a conflict, use the existing value.
 
 Once a merger is constructed, it then has a merge() method that can be called:
@@ -32,7 +32,6 @@ Once a merger is constructed, it then has a merge() method that can be called:
 
 Merges are Destructive
 ======================
-
 
 You may have noticed from the example, but merging is a destructive behavior: it will modify the first argument passed in (the base) as part of the merge.
 
@@ -96,3 +95,13 @@ Example:
 If a strategy fails, an exception should not be raised. This is to
 ensure it can be chained with other strategies, or the fall-back.
 
+Uniqueness of elements when merging
+===================================
+
+Some strategies require determining the uniqueness
+of the elements. Since deepmerge primarily deals with nested
+types, this includes structures that are not hashable such as
+dictionaries.
+
+In those cases, built-in deepmerge strategies will call repr()
+on the object and hash that value instead.

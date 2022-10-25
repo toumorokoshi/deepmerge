@@ -19,3 +19,15 @@ def test_strategy_append_unique(custom_merger):
     expected = [1, 3, 2, 5, 4]
     actual = custom_merger.merge(base, nxt)
     assert actual == expected
+
+
+def test_strategy_append_unique_nested_dict(custom_merger):
+    """append_unique should work even with unhashable objects
+    Like dicts.
+    """
+    base = [{"bar": ["bob"]}]
+    nxt = [{"bar": ["baz"]}]
+
+    result = custom_merger.merge(base, nxt)
+
+    assert result == [{"bar": ["bob"]}, {"bar": ["baz"]}]
