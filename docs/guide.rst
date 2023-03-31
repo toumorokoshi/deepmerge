@@ -80,7 +80,7 @@ Custom Strategies
 Strategies are functions that satisfy the following properties:
 
 * have the function signature (config, path, base, nxt)
-* return the merged object, or None.
+* return the merged object, or `deepmerge.STRATEGY_END`.
 
 Example:
 
@@ -92,7 +92,7 @@ Example:
           base.append(nxt[-1])
           return base
 
-If a strategy fails, an exception should not be raised. This is to
+If a strategy fails, an exception should not be raised, instead it should return `deepmerge.STRATEGY_END`. This is to
 ensure it can be chained with other strategies, or the fall-back.
 
 Uniqueness of elements when merging
