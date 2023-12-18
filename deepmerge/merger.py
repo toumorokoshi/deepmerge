@@ -36,9 +36,9 @@ class Merger(object):
         return self._type_conflict_strategy(self, *args)
 
     def value_strategy(self, path, base, nxt):
+        for typ, strategy in self._type_strategies:
+            if isinstance(base, typ) and isinstance(nxt, typ):
+                return strategy(self, path, base, nxt)
         if not (isinstance(base, type(nxt)) or isinstance(nxt, type(base))):
             return self.type_conflict_strategy(path, base, nxt)
-        for typ, strategy in self._type_strategies:
-            if isinstance(nxt, typ):
-                return strategy(self, path, base, nxt)
         return self._fallback_strategy(self, path, base, nxt)

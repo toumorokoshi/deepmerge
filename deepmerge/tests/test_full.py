@@ -1,4 +1,5 @@
 from deepmerge.exception import *
+from collections import OrderedDict, defaultdict
 import pytest
 
 
@@ -48,3 +49,12 @@ def test_example():
     always_merger.merge(base, next)
 
     assert base == {"foo": "value", "bar": "value2", "baz": ["a", "b"]}
+
+
+def test_subtypes():
+    base = OrderedDict({"foo": "value", "baz": ["a"]})
+    next = defaultdict(str, {"bar": "value2", "baz": ["b"]})
+
+    result = always_merger.merge(base, next)
+
+    assert dict(result) == {"foo": "value", "bar": "value2", "baz": ["a", "b"]}
