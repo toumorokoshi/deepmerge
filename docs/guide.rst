@@ -9,7 +9,7 @@ through common data structures and joining results. Although
 it's recommended to choose your own strategies, deepmerge does
 provided some preconfigured mergers for a common situations:
 
-* deepmerge.always_merger: always try to merge. in the case of mismatches, the value from the second object overrides the first o ne.
+* deepmerge.always_merger: always try to merge. in the case of mismatches, the value from the second object overrides the first one.
 * deepmerge.merge_or_raise: try to merge, raise an exception if an unmergable situation is encountered.
 * deepmerge.conservative_merger: similar to always_merger, but in the case of a conflict, use the existing value.
 
@@ -42,6 +42,8 @@ This is intentional, as an implicit copy would result in a significant performan
     from copy import deepcopy
     result = deepcopy(base)
     always_merger.merge(result, next)
+
+    assert id(result) != id(base)
 
 Authoring your own Mergers
 ==========================
