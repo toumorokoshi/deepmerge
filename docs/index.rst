@@ -34,6 +34,8 @@ Example
 
     assert expected_result == result
 
+    # The merge action will change the first dict (base).
+    assert id(base) == id(result)
 
 **Custom Strategy**
 
