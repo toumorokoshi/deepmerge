@@ -2,17 +2,28 @@
 deepmerge
 =========
 
+.. image:: https://img.shields.io/pypi/v/deepmerge.svg
+   :target: https://pypi.org/project/deepmerge/
+
+.. image:: https://img.shields.io/pypi/status/deepmerge.svg
+   :target: https://pypi.org/project/deepmerge/
+
+.. image:: https://img.shields.io/pypi/pyversions/pillar.svg
+   :target: https://github.com/toumorokoshi/deepmerge
+
+.. image:: https://img.shields.io/github/license/toumorokoshi/deepmerge.svg
+   :target: https://github.com/toumorokoshi/deepmerge
+
 .. image:: https://github.com/toumorokoshi/deepmerge/actions/workflows/python-package.yaml/badge.svg
     :target: https://github.com/toumorokoshi/deepmerge/actions/workflows/python-package.yaml
 
-A tools to handle merging of
-nested data structures in python.
+A tool to handle merging of nested data structures in Python.
 
 ------------
 Installation
 ------------
 
-deepmerge is available on `pypi <https://pypi.python.org/>`_:
+deepmerge is available on `pypi <https://pypi.org/project/deepmerge/>`_:
 
 .. code-block:: bash
 

@@ -1,8 +1,65 @@
 [build-system]
-# setuptools and setuptools_scm version are explicitly set
-# to allow support for python2
-requires = ["setuptools>=44", "wheel", "setuptools_scm>=5"]
+requires = ["setuptools>=69", "setuptools_scm>=8"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "deepmerge"
+description = "A toolset for deeply merging Python dictionaries."
+authors =  [
+    {name = "Yusuke Tsutsumi"},
+]
+
+# Dependency Information
+requires-python = ">=3.7"
+dependencies = [
+    "typing_extensions;python_version<='3.9'",
+]
+
+# Extra Information
+readme = "README.rst"
+license = {text = "MIT Licence"}
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Typing :: Typed",
+]
+
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "http://deepmerge.readthedocs.io/en/latest/"
+GitHub = "https://github.com/toumorokoshi/deepmerge"
+
+[project.optional-dependencies]
+dev = [
+    ## Formatting / Linting
+    "validate-pyproject[all]",
+    "pyupgrade",
+    "black",
+    "pylint",
+    "mypy",
+    ## Testing
+    "pytest",
+]
+
+[tool.setuptools.packages.find]
+include = ["deepmerge*"]
+exclude = ["tests*", "*.tests*"]
+
+[tool.setuptools.package-data]
+deepmerge = ["py.typed"]
 
 [tool.setuptools_scm]
 write_to = "deepmerge/_version.py"
+
+[tool.black]
+line-length = 88
+target-version = ["py37", "py38", "py39", "py310", "py311", "py312"]

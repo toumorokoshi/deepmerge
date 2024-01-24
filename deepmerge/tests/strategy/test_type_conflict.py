@@ -1,6 +1,8 @@
+from typing import Dict
+
 from deepmerge.strategy.type_conflict import TypeConflictStrategies
 
-EMPTY_DICT = {}
+EMPTY_DICT: Dict = {}
 
 CONTENT_AS_LIST = [{"key": "val"}]
 

@@ -1,9 +1,11 @@
+from typing import List, Tuple, Type
+
 from .merger import Merger
 from .strategy.core import STRATEGY_END  # noqa
 
 # some standard mergers available
 
-DEFAULT_TYPE_SPECIFIC_MERGE_STRATEGIES = [
+DEFAULT_TYPE_SPECIFIC_MERGE_STRATEGIES: List[Tuple[Type, str]] = [
     (list, "append"),
     (dict, "merge"),
     (set, "union"),

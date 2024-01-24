@@ -1,3 +1,8 @@
+from __future__ import annotations
+
+from typing import Dict, List
+
+import deepmerge.merger
 from .core import StrategyList
 
 
@@ -10,7 +15,9 @@ class DictStrategies(StrategyList):
     NAME = "dict"
 
     @staticmethod
-    def strategy_merge(config, path, base, nxt):
+    def strategy_merge(
+        config: deepmerge.merger.Merger, path: List, base: Dict, nxt: Dict
+    ) -> Dict:
         """
         for keys that do not exists,
         use them directly. if the key exists
@@ -24,7 +31,9 @@ class DictStrategies(StrategyList):
         return base
 
     @staticmethod
-    def strategy_override(config, path, base, nxt):
+    def strategy_override(
+        config: deepmerge.merger.Merger, path: List, base: Dict, nxt: Dict
+    ) -> Dict:
         """
         move all keys in nxt into base, overriding
         conflicts.
