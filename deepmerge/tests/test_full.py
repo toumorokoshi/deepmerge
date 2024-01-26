@@ -37,9 +37,7 @@ def test_merge_or_raise_raises_exception():
     assert exc.nxt == "a string!"
 
 
-@pytest.mark.parametrize(
-    "base, nxt, expected", [("dooby", "fooby", "dooby"), (-10, "goo", -10)]
-)
+@pytest.mark.parametrize("base, nxt, expected", [("dooby", "fooby", "dooby"), (-10, "goo", -10)])
 def test_use_existing(base, nxt, expected):
     assert conservative_merger.merge(base, nxt) == expected
 

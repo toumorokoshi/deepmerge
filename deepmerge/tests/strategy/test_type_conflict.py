@@ -18,7 +18,5 @@ def test_merge_if_not_empty():
     )
     assert strategy == CONTENT_AS_LIST
 
-    strategy = TypeConflictStrategies.strategy_override_if_not_empty(
-        {}, [], CONTENT_AS_LIST, None
-    )
+    strategy = TypeConflictStrategies.strategy_override_if_not_empty({}, [], CONTENT_AS_LIST, None)
     assert strategy == CONTENT_AS_LIST

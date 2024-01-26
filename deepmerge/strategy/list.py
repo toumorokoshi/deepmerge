@@ -16,29 +16,27 @@ class ListStrategies(StrategyList):
 
     @staticmethod
     def strategy_override(
-        config: deepmerge.merger.Merger, path: List, base: List, nxt: List
-    ) -> List:
+        config: deepmerge.merger.Merger, path: list, base: list, nxt: list
+    ) -> list:
         """use the list nxt."""
         return nxt
 
     @staticmethod
     def strategy_prepend(
-        config: deepmerge.merger.Merger, path: List, base: List, nxt: List
-    ) -> List:
+        config: deepmerge.merger.Merger, path: list, base: list, nxt: list
+    ) -> list:
         """prepend nxt to base."""
         return nxt + base
 
     @staticmethod
-    def strategy_append(
-        config: deepmerge.merger.Merger, path: List, base: List, nxt: List
-    ) -> List:
+    def strategy_append(config: deepmerge.merger.Merger, path: list, base: list, nxt: list) -> list:
         """append nxt to base."""
         return base + nxt
 
     @staticmethod
     def strategy_append_unique(
-        config: deepmerge.merger.Merger, path: List, base: List, nxt: List
-    ) -> List:
+        config: deepmerge.merger.Merger, path: list, base: list, nxt: list
+    ) -> list:
         """append items without duplicates in nxt to base."""
         base_as_set = ExtendedSet(base)
         return base + [n for n in nxt if n not in base_as_set]

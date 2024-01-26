@@ -79,3 +79,14 @@ Example
 You can also pass in your own merge functions, instead of a string.
 
 For more information, see the `docs <https://deepmerge.readthedocs.io/en/latest/>`_
+
+------------------
+Supported Versions
+------------------
+
+deepmerge is supported on Python 3.8+.
+
+For older Python versions the last supported version of deepmerge is listed
+below:
+
+- 3.7 : 1.1.1

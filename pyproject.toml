@@ -6,11 +6,11 @@ build-backend = "setuptools.build_meta"
 name = "deepmerge"
 description = "A toolset for deeply merging Python dictionaries."
 authors =  [
-    {name = "Yusuke Tsutsumi"},
+    {name = "Yusuke Tsutsumi", email = "yusuke@tsutsumi.io"},
 ]
 
 # Dependency Information
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 dependencies = [
     "typing_extensions;python_version<='3.9'",
 ]
@@ -21,7 +21,6 @@ license = {text = "MIT Licence"}
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -61,5 +60,5 @@ deepmerge = ["py.typed"]
 write_to = "deepmerge/_version.py"
 
 [tool.black]
-line-length = 88
-target-version = ["py37", "py38", "py39", "py310", "py311", "py312"]
+line-length = 100
+target-version = ["py38", "py39", "py310", "py311", "py312"]

@@ -13,7 +13,7 @@ class Merger:
            that should be used against incoming types. For example: (dict, "override").
     """
 
-    PROVIDED_TYPE_STRATEGIES: Dict[Type, Type[s.StrategyList]] = {
+    PROVIDED_TYPE_STRATEGIES: dict[type, type[s.StrategyList]] = {
         list: s.ListStrategies,
         dict: s.DictStrategies,
         set: s.SetStrategies,
@@ -21,24 +21,18 @@ class Merger:
 
     def __init__(
         self,
-        type_strategies: Sequence[
-            Tuple[Type, Union[s.StrategyCallable, s.StrategyListInitable]]
-        ],
+        type_strategies: Sequence[tuple[type, s.StrategyCallable | s.StrategyListInitable]],
         fallback_strategies: s.StrategyListInitable,
         type_conflict_strategies: s.StrategyListInitable,
     ) -> None:
         self._fallback_strategy = s.FallbackStrategies(fallback_strategies)
-        self._type_conflict_strategy = s.TypeConflictStrategies(
-            type_conflict_strategies
-        )
+        self._type_conflict_strategy = s.TypeConflictStrategies(type_conflict_strategies)
 
-        self._type_strategies: List[Tuple[Type, s.StrategyCallable]] = []
+        self._type_strategies: list[tuple[type, s.StrategyCallable]] = []
         for typ, strategy in type_strategies:
             if typ in self.PROVIDED_TYPE_STRATEGIES:
                 # Customise a StrategyList instance for this type
-                self._type_strategies.append(
-                    (typ, self.PROVIDED_TYPE_STRATEGIES[typ](strategy))
-                )
+                self._type_strategies.append((typ, self.PROVIDED_TYPE_STRATEGIES[typ](strategy)))
             elif callable(strategy):
                 self._type_strategies.append((typ, strategy))
             else:
@@ -48,10 +42,10 @@ class Merger:
     def merge(self, base: Any, nxt: Any) -> Any:
         return self.value_strategy([], base, nxt)
 
-    def type_conflict_strategy(self, path: List, base: Any, nxt: Any) -> Any:
+    def type_conflict_strategy(self, path: list, base: Any, nxt: Any) -> Any:
         return self._type_conflict_strategy(self, path, base, nxt)
 
-    def value_strategy(self, path: List, base: Any, nxt: Any) -> Any:
+    def value_strategy(self, path: list, base: Any, nxt: Any) -> Any:
         # Check for strategy based on type of base, next
         for typ, strategy in self._type_strategies:
             if isinstance(base, typ) and isinstance(nxt, typ):

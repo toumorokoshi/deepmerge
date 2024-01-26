@@ -15,9 +15,7 @@ DEFAULT_TYPE_SPECIFIC_MERGE_STRATEGIES: List[Tuple[Type, str]] = [
 # in the case of type mismatches,
 # the value from the second object
 # will override the previous one.
-always_merger = Merger(
-    DEFAULT_TYPE_SPECIFIC_MERGE_STRATEGIES, ["override"], ["override"]
-)
+always_merger = Merger(DEFAULT_TYPE_SPECIFIC_MERGE_STRATEGIES, ["override"], ["override"])
 
 # this merge strategies attempts
 # to merge (append for list, unify for dicts)

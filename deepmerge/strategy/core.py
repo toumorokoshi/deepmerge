@@ -14,9 +14,7 @@ from ..exception import StrategyNotFound, InvalidMerge
 STRATEGY_END = object()
 
 StrategyCallable: TypeAlias = "Callable[[deepmerge.merger.Merger, List, Any, Any], Any]"
-StrategyListInitable: TypeAlias = (
-    "Union[str, StrategyCallable, List[Union[str, StrategyCallable]]]"
-)
+StrategyListInitable: TypeAlias = "Union[str, StrategyCallable, List[Union[str, StrategyCallable]]]"
 
 
 class StrategyList:
@@ -25,14 +23,10 @@ class StrategyList:
     def __init__(self, strategy_list: StrategyListInitable) -> None:
         if not isinstance(strategy_list, list):
             strategy_list = [strategy_list]
-        self._strategies: List[StrategyCallable] = [
-            self._expand_strategy(s) for s in strategy_list
-        ]
+        self._strategies: list[StrategyCallable] = [self._expand_strategy(s) for s in strategy_list]
 
     @classmethod
-    def _expand_strategy(
-        cls, strategy: Union[str, StrategyCallable]
-    ) -> StrategyCallable:
+    def _expand_strategy(cls, strategy: str | StrategyCallable) -> StrategyCallable:
         """
         :param strategy: string or function
 
@@ -48,9 +42,7 @@ class StrategyList:
             raise StrategyNotFound(strategy)
         return strategy
 
-    def __call__(
-        self, config: deepmerge.merger.Merger, path: List, base: Any, nxt: Any
-    ) -> Any:
+    def __call__(self, config: deepmerge.merger.Merger, path: list, base: Any, nxt: Any) -> Any:
         for s in self._strategies:
             ret_val = s(config, path, base, nxt)
             if ret_val is not STRATEGY_END:

@@ -20,7 +20,7 @@ class InvalidMerge(DeepMergeException):
         self,
         strategy_list_name: str,
         config: deepmerge.merger.Merger,
-        path: List,
+        path: list,
         base: Any,
         nxt: Any,
     ) -> None:
