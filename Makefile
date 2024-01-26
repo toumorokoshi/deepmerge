@@ -1,7 +1,7 @@
 .venv: pyproject.toml
 	python -m virtualenv .venv
 
-.venv/deps: .venv pyproject.toml setup.cfg
+.venv/deps: .venv pyproject.toml
 	.venv/bin/python -m pip install . build pytest twine
 	touch .venv/deps
 
