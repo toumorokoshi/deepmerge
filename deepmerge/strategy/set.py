@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import List, Set
-
 import deepmerge.merger
 from .core import StrategyList
 

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import sys
-from typing import TYPE_CHECKING, List, Callable, Any, Union
+from typing import Callable, Any
 
 if sys.version_info >= (3, 10):
     from typing import TypeAlias
@@ -13,8 +13,9 @@ from ..exception import StrategyNotFound, InvalidMerge
 
 STRATEGY_END = object()
 
-StrategyCallable: TypeAlias = "Callable[[deepmerge.merger.Merger, List, Any, Any], Any]"
-StrategyListInitable: TypeAlias = "Union[str, StrategyCallable, List[Union[str, StrategyCallable]]]"
+# Note: We use string annotations here to prevent circular import caused by Merger
+StrategyCallable: TypeAlias = "Callable[[deepmerge.merger.Merger, list, Any, Any], Any]"
+StrategyListInitable: TypeAlias = "str | StrategyCallable | list[str | StrategyCallable]"
 
 
 class StrategyList:
