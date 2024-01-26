@@ -43,10 +43,12 @@ dev = [
     "validate-pyproject[all]",
     "pyupgrade",
     "black",
-    "pylint",
     "mypy",
     ## Testing
     "pytest",
+    ## Build / Release
+    "build",
+    "twine",
 ]
 
 [tool.setuptools.packages.find]
