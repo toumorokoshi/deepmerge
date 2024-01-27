@@ -7,7 +7,7 @@
 
 build: .venv/deps
 	rm -rf ./dist/
-	.venv/bin/build .
+	.venv/bin/python -m build
 
 # only works with python 3+
 lint: .venv/deps
