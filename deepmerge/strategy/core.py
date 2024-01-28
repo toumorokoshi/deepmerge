@@ -6,7 +6,7 @@ from typing import Callable, Any
 if sys.version_info >= (3, 10):
     from typing import TypeAlias
 else:
-    from typing_extentions import TypeAlias
+    from typing_extensions import TypeAlias
 
 import deepmerge.merger
 from ..exception import StrategyNotFound, InvalidMerge
