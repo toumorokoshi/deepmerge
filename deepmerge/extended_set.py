@@ -22,6 +22,9 @@ class ExtendedSet(set):
     def _hash_element(self, element: Any) -> int:
         if getattr(element, "__hash__") is not None:
             return hash(element)
+        elif isinstance(element, dict):
+            sorted_keys = sorted(element.keys())  # sorting keys
+            return hash(','.join([f'{key}:{element[key]}' for key in sorted_keys]))  # building str based on the sorted keys
         return hash(str(element))
 
     def __contains__(self, obj: Any) -> bool:
