@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-from typing import Any, Sequence, Callable
+from typing import Any, Sequence, TypeVar
 
 from . import strategy as s
 
+_T = TypeVar("_T")
 
 class Merger:
     """
@@ -39,13 +40,13 @@ class Merger:
                 raise ValueError(f"Cannot handle ({typ}, {strategy})")
         return
 
-    def merge(self, base: Any, nxt: Any) -> Any:
+    def merge(self, base: _T, nxt: _T) -> _T:
         return self.value_strategy([], base, nxt)
 
     def type_conflict_strategy(self, path: list, base: Any, nxt: Any) -> Any:
         return self._type_conflict_strategy(self, path, base, nxt)
 
-    def value_strategy(self, path: list, base: Any, nxt: Any) -> Any:
+    def value_strategy(self, path: list, base: _T, nxt: _T) -> _T:
         # Check for strategy based on type of base, next
         for typ, strategy in self._type_strategies:
             if isinstance(base, typ) and isinstance(nxt, typ):
