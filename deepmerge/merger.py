@@ -6,6 +6,7 @@ from . import strategy as s
 
 _T = TypeVar("_T")
 
+
 class Merger:
     """
     Merges objects based on provided strategies
