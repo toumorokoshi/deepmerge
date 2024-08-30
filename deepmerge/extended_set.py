@@ -9,7 +9,7 @@ class ExtendedSet(set):
 
     The following types that cannot be used in a set are supported:
 
-    - unhashable types
+    - unhashable types, granted they are idempotent.
     """
 
     def __init__(self, elements: Sequence) -> None:
@@ -25,7 +25,8 @@ class ExtendedSet(set):
         elif isinstance(element, dict):
             sorted_keys = sorted(element.keys())
             return hash(",".join([f"{key}:{element[key]}" for key in sorted_keys]))
-        return hash(str(element))
+        else:
+            return hash(str(element))
 
     def __contains__(self, obj: Any) -> bool:
         return self._hash_element(obj) in self._values_by_hash
