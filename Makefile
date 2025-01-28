@@ -9,6 +9,9 @@ build: .venv/deps
 	rm -rf ./dist/
 	.venv/bin/python -m build
 
+format: .venv/deps
+	.venv/bin/black deepmerge
+
 # only works with python 3+
 lint: .venv/deps
 	.venv/bin/validate-pyproject pyproject.toml

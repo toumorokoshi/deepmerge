@@ -45,6 +45,47 @@ This is intentional, as an implicit copy would result in a significant performan
 
     assert id(result) != id(base)
 
+`functools.reduce` Usage
+============
+
+If you have an iterable collection of data structures to merge, you can use `functools.reduce` to merge them all together. 
+Beware that there is some nuanced behaviour when using the initialiser with `functools.reduce` 
+which relates to the :ref:`Merges are Destructive` section above.
+
+.. code-block:: python
+
+    from deepmerge import always_merger
+    from functools import reduce
+
+    base = {"foo": "value", "baz": ["a"]}
+    next = {"bar": "value2", "baz": ["b"]}
+    more = {"bar": "value3", "baz": ["c"]}
+
+    list_to_merge = [base, next, more]
+
+    result = reduce(always_merger.merge, list_to_merge)
+
+    assert result == {
+        "foo": "value",
+        "bar": "value3",
+        "baz": ["a", "b", "c"]
+    }
+    assert result == base
+
+Where as the following will not impact `base` because we initialise a new empty `dict`:
+
+.. code-block:: python
+
+    result = reduce(always_merger.merge, list_to_merge, {})
+
+    assert result == {
+        "foo": "value",
+        "bar": "value3",
+        "baz": ["a", "b", "c"]
+    }
+    assert result != base
+
+
 Authoring your own Mergers
 ==========================
 
