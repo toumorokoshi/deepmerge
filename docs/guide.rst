@@ -30,6 +30,8 @@ Once a merger is constructed, it then has a merge() method that can be called:
         "baz": ["a", "b"]
     }
 
+.. _merges_are_destructive:
+
 Merges are Destructive
 ======================
 
@@ -50,7 +52,10 @@ This is intentional, as an implicit copy would result in a significant performan
 
 If you have an iterable collection of data structures to merge, you can use `functools.reduce` to merge them all together. 
 Beware that there is some nuanced behaviour when using the initialiser with `functools.reduce` 
-which relates to the :ref:`Merges are Destructive` section above.
+which relates to the :ref:`merges_are_destructive` section above.
+
+
+**Example 1**: Not setting an initialiser
 
 .. code-block:: python
 
@@ -72,6 +77,8 @@ which relates to the :ref:`Merges are Destructive` section above.
     }
     assert result == base
 
+**Example 2**: Setting an empty initialiser
+
 Where as the following will not impact `base` because we initialise a new empty `dict`:
 
 .. code-block:: python
@@ -84,6 +91,26 @@ Where as the following will not impact `base` because we initialise a new empty 
         "baz": ["a", "b", "c"]
     }
     assert result != base
+
+Which can lead to some fun and easy configuration loading implementations like:
+
+.. code-block:: python
+    
+    import pathlib
+    import yaml #PyYAML
+    from functools import reduce
+    from deepmerge import always_merger
+
+    # Recursively find yaml files, parse and then merge them through pythonic map-reduce idioms
+    my_configuration = reduce(
+        always_merger.merge, 
+        map(
+            lambda f: yaml.safe_load(f.read_text()), 
+            pathlib.Path.cwd().glob("**/*.yml")
+        ), 
+        {}
+    )
+    
 
 
 Authoring your own Mergers
