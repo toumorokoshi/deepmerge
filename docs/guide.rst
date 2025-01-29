@@ -48,7 +48,7 @@ This is intentional, as an implicit copy would result in a significant performan
     assert id(result) != id(base)
 
 `functools.reduce` Usage
-============
+========================
 
 If you have an iterable collection of data structures to merge, you can use `functools.reduce` to merge them all together. 
 Beware that there is some nuanced behaviour when using the initialiser with `functools.reduce` 

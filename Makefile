@@ -21,4 +21,15 @@ lint: .venv/deps
 test: .venv/deps
 	.venv/bin/pytest deepmerge
 
+docs: .venv/deps
+	$(MAKE) -C docs html
+
+docs-serve: docs
+	.venv/bin/python -m http.server --directory docs/_build/html
+
 ready-pr: test lint
+
+clean:
+	rm -rf .venv
+	rm -rf build
+	

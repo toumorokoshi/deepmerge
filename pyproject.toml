@@ -49,6 +49,9 @@ dev = [
     ## Build / Release
     "build",
     "twine",
+    ## Documentation
+    "sphinx",
+    "sphinx-rtd-theme"
 ]
 
 [tool.setuptools.packages.find]
