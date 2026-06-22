@@ -9,6 +9,9 @@ build: .venv/deps
 	rm -rf ./dist/
 	.venv/bin/python -m build
 
+format: .venv/deps
+	.venv/bin/black deepmerge
+
 # only works with python 3+
 lint: .venv/deps
 	.venv/bin/validate-pyproject pyproject.toml
@@ -18,4 +21,15 @@ lint: .venv/deps
 test: .venv/deps
 	.venv/bin/pytest deepmerge
 
+docs: .venv/deps
+	$(MAKE) -C docs html
+
+docs-serve: docs
+	.venv/bin/python -m http.server --directory docs/_build/html
+
 ready-pr: test lint
+
+clean:
+	rm -rf .venv
+	rm -rf build
+	

@@ -30,6 +30,8 @@ Once a merger is constructed, it then has a merge() method that can be called:
         "baz": ["a", "b"]
     }
 
+.. _merges_are_destructive:
+
 Merges are Destructive
 ======================
 
@@ -44,6 +46,72 @@ This is intentional, as an implicit copy would result in a significant performan
     always_merger.merge(result, next)
 
     assert id(result) != id(base)
+
+`functools.reduce` Usage
+========================
+
+If you have an iterable collection of data structures to merge, you can use `functools.reduce` to merge them all together. 
+Beware that there is some nuanced behaviour when using the initialiser with `functools.reduce` 
+which relates to the :ref:`merges_are_destructive` section above.
+
+
+**Example 1**: Not setting an initialiser
+
+.. code-block:: python
+
+    from deepmerge import always_merger
+    from functools import reduce
+
+    base = {"foo": "value", "baz": ["a"]}
+    next = {"bar": "value2", "baz": ["b"]}
+    more = {"bar": "value3", "baz": ["c"]}
+
+    list_to_merge = [base, next, more]
+
+    result = reduce(always_merger.merge, list_to_merge)
+
+    assert result == {
+        "foo": "value",
+        "bar": "value3",
+        "baz": ["a", "b", "c"]
+    }
+    assert result == base
+
+**Example 2**: Setting an empty initialiser
+
+Where as the following will not impact `base` because we initialise a new empty `dict`:
+
+.. code-block:: python
+
+    result = reduce(always_merger.merge, list_to_merge, {})
+
+    assert result == {
+        "foo": "value",
+        "bar": "value3",
+        "baz": ["a", "b", "c"]
+    }
+    assert result != base
+
+Which can lead to some fun and easy configuration loading implementations like:
+
+.. code-block:: python
+    
+    import pathlib
+    import yaml #PyYAML
+    from functools import reduce
+    from deepmerge import always_merger
+
+    # Recursively find yaml files, parse and then merge them through pythonic map-reduce idioms
+    my_configuration = reduce(
+        always_merger.merge, 
+        map(
+            lambda f: yaml.safe_load(f.read_text()), 
+            pathlib.Path.cwd().glob("**/*.yml")
+        ), 
+        {}
+    )
+    
+
 
 Authoring your own Mergers
 ==========================
