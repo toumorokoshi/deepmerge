@@ -30,5 +30,17 @@ class TypeConflictStrategies(StrategyList):
     def strategy_override_if_not_empty(
         config: deepmerge.merger.Merger, path: list, base: T1, nxt: T2
     ) -> T1 | T2:
-        """overrides the new object over the old object only if the new object is not empty or null"""
-        return nxt if nxt else base
+        """overrides the new object over the old object only if the new object is not empty or null.
+
+        ``None`` is treated as null.  Sized objects (``dict``, ``list``, ``set``, ``str``, …) are
+        treated as empty when ``len(nxt) == 0``.  All other values — including falsy primitives such
+        as ``0``, ``0.0``, and ``False`` — are considered non-empty and will override *base*.
+        """
+        if nxt is None:
+            return base
+        try:
+            if len(nxt) == 0:
+                return base
+        except TypeError:
+            pass
+        return nxt
