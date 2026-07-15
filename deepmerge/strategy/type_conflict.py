@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Sized
 from typing import Any, TypeVar
 
 import deepmerge.merger
@@ -38,9 +39,6 @@ class TypeConflictStrategies(StrategyList):
         """
         if nxt is None:
             return base
-        try:
-            if len(nxt) == 0:
-                return base
-        except TypeError:
-            pass
+        if isinstance(nxt, Sized) and len(nxt) == 0:
+            return base
         return nxt
