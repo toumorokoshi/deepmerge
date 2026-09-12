@@ -31,7 +31,7 @@ class ExtendedSet(set):
         if getattr(element, "__hash__") is not None:
             return hash(element)
         elif isinstance(element, dict):
-            sorted_keys = sorted(element.keys())
+            sorted_keys = sorted(element.keys(), key=repr)
             return hash(",".join([f"{key}:{element[key]}" for key in sorted_keys]))
         else:
             return hash(str(element))
