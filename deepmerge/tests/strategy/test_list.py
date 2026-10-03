@@ -63,3 +63,11 @@ def test_strategy_append_unique_hashable_hash_collision(custom_merger):
     different element shares its hash (e.g. ``hash(-1) == hash(-2)``).
     """
     assert custom_merger.merge([-1], [-2]) == [-1, -2]
+
+
+def test_strategy_append_unique_mixed_dict_keys(custom_merger):
+    base = [{1: "integer", "name": "string", (2, 3): "tuple"}]
+    same = [{(2, 3): "tuple", "name": "string", 1: "integer"}]
+    different = [{1: "changed", "name": "string", (2, 3): "tuple"}]
+    assert custom_merger.merge(base, same) == base
+    assert custom_merger.merge(base, different) == base + different
