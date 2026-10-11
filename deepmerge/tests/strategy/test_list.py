@@ -21,6 +21,22 @@ def test_strategy_append_unique(custom_merger):
     assert actual == expected
 
 
+@pytest.mark.parametrize(
+    "base,nxt,expected",
+    [
+        ([1, 1], [2, 2, 3, 2], [1, 1, 2, 3]),
+        ([{"a": 1}], [{"a": 2}, {"a": 2}], [{"a": 1}, {"a": 2}]),
+        ([-1], [-2, -2], [-1, -2]),
+    ],
+)
+def test_strategy_append_unique_repeated_incoming_values(custom_merger, base, nxt, expected):
+    original_base = base[:]
+    original_nxt = nxt[:]
+    assert custom_merger.merge(base, nxt) == expected
+    assert base == original_base
+    assert nxt == original_nxt
+
+
 def test_strategy_append_unique_nested_dict(custom_merger):
     """append_unique should work even with unhashable objects
     Like dicts.
