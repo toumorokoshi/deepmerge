@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 import pytest
 from deepmerge.strategy.list import ListStrategies
 from deepmerge import Merger
@@ -71,3 +73,25 @@ def test_strategy_append_unique_mixed_dict_keys(custom_merger):
     different = [{1: "changed", "name": "string", (2, 3): "tuple"}]
     assert custom_merger.merge(base, same) == base
     assert custom_merger.merge(base, different) == base + different
+
+
+@pytest.mark.parametrize("value", [([1],), ({"k": "v"},), (([1],),)])
+@pytest.mark.parametrize("in_base", [False, True])
+def test_strategy_append_unique_unhashable_tuple(custom_merger, value, in_base):
+    """A tuple can define __hash__ but contain unhashable values."""
+    base = [value] if in_base else []
+    nxt = [deepcopy(value)]
+    original_base = deepcopy(base)
+    original_nxt = deepcopy(nxt)
+
+    result = custom_merger.merge(base, nxt)
+
+    assert result == [value]
+    assert base == original_base
+    assert nxt == original_nxt
+
+
+def test_strategy_append_unique_distinct_unhashable_tuples(custom_merger):
+    base = [([1],)]
+    nxt = [([2],)]
+    assert custom_merger.merge(base, nxt) == [([1],), ([2],)]
