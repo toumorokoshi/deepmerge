@@ -1,49 +1,75 @@
-from typing import Sequence, Any, Dict, List
+from typing import Sequence, Any, Dict, List, Optional, Set
 
 
 class ExtendedSet(set):
     """
-    ExtendedSet is an extension of set, which allows for usage
-    of types that are typically not allowed in a set
-    (e.g. unhashable).
+    A membership index for hashable and unhashable values.
 
-    The following types that cannot be used in a set are supported:
-
-    - unhashable types, granted they are idempotent, including tuples
-      containing unhashable values.
+    Built-in containers are indexed by equality-compatible structural hashes.
+    Custom objects and recursive containers use equality scans instead, since
+    their equality cannot safely be inferred from their representation.
+    Values must not change while they are in the index.
     """
 
     def __init__(self, elements: Sequence) -> None:
-        # Elements are grouped into buckets keyed by their (possibly lossy)
-        # hash. Membership and insertion compare a candidate against the
-        # members of the matching bucket using equality, so two distinct
-        # elements that merely collide on the hash are not treated as equal.
         self._buckets: Dict[int, List[Any]] = {}
+        self._fallback: List[Any] = []
+        self._elements: List[Any] = []
         for element in elements:
             self._insert(element)
 
     def _insert(self, element: Any) -> None:
-        bucket = self._buckets.setdefault(self._hash_element(element), [])
-        if not any(element == existing for existing in bucket):
-            bucket.append(element)
-        return
+        key = self._hash_element(element)
+        candidates = self._candidates(key)
+        if not any(element == existing for existing in candidates):
+            if key is None:
+                self._fallback.append(element)
+            else:
+                self._buckets.setdefault(key, []).append(element)
+            self._elements.append(element)
 
-    def _hash_element(self, element: Any) -> int:
-        try:
+    def _hash_element(self, element: Any) -> Optional[int]:
+        return self._structural_hash(element, set())
+
+    def _structural_hash(self, element: Any, active: Set[int]) -> Optional[int]:
+        # Exact types only: subclasses can define different equality rules.
+        kind = type(element)
+        if kind in (type(None), bool, int, float, complex, str, bytes):
             return hash(element)
-        except TypeError:
-            # Defining __hash__ does not guarantee that hashing succeeds:
-            # tuples may contain unhashable members.
-            pass
+        if kind is bytearray:
+            return hash(bytes(element))
+        if kind not in (dict, list, tuple, set, frozenset):
+            return None
+        identity = id(element)
+        if identity in active:
+            return None
+        active.add(identity)
+        try:
+            if kind is dict:
+                pairs = []
+                for key, value in element.items():
+                    key_hash = self._structural_hash(key, active)
+                    value_hash = self._structural_hash(value, active)
+                    if key_hash is None or value_hash is None:
+                        return None
+                    pairs.append((key_hash, value_hash))
+                return hash(("dict", frozenset(pairs)))
+            hashes = []
+            for value in element:
+                value_hash = self._structural_hash(value, active)
+                if value_hash is None:
+                    return None
+                hashes.append(value_hash)
+            if kind in (set, frozenset):
+                return hash(("set", frozenset(hashes)))
+            return hash((kind, tuple(hashes)))
+        finally:
+            active.remove(identity)
 
-        if isinstance(element, dict):
-            sorted_keys = sorted(element.keys(), key=repr)
-            return hash(",".join([f"{key}:{element[key]}" for key in sorted_keys]))
-        else:
-            return hash(str(element))
+    def _candidates(self, key: Optional[int]) -> List[Any]:
+        if key is None:
+            return self._elements
+        return self._buckets.get(key, []) + self._fallback
 
     def __contains__(self, obj: Any) -> bool:
-        bucket = self._buckets.get(self._hash_element(obj))
-        if bucket is None:
-            return False
-        return any(obj == existing for existing in bucket)
+        return any(obj == existing for existing in self._candidates(self._hash_element(obj)))
