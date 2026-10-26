@@ -48,3 +48,19 @@ These are the built in strategies provided by deepmerge.
 .. autoclass:: deepmerge.strategy.list.ListStrategies
     :members:
     :undoc-members:
+
+List deduplication
+~~~~~~~~~~~~~~~~~~
+
+``append_unique`` compares values using Python equality, preserves existing
+base-list duplicates, and appends only new incoming values. Equal dictionaries
+are deduplicated even when nested dictionary insertion order or equal numeric
+representations differ.
+
+Built-in containers use structural hash buckets, with equality checks to handle
+hash collisions. Custom objects, container subclasses, and recursive containers
+use equality scans instead, including comparisons with indexed built-in values.
+These fallback comparisons can take quadratic time. Values must not change during
+the merge, and equality must return a usable boolean result. This does not add
+support for objects whose equality raises an exception or returns an ambiguous
+array result.
