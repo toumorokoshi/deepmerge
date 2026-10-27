@@ -95,3 +95,53 @@ def test_reduce(initializer, expectation):
         assert result is base
     else:
         assert result is not base
+
+
+import pytest
+
+from deepmerge import Merger, always_merger, merge_or_raise
+from deepmerge.exception import InvalidMerge
+
+
+def _merge_merger():
+    return Merger([(dict, "merge")], ["override"], ["override"])
+
+
+def test_merge_disjoint_keys_returns_base_and_mutates_it():
+    base = {"a": 1}
+    result = _merge_merger().merge(base, {"b": 2})
+    assert result is base
+    assert base == {"a": 1, "b": 2}
+
+
+def test_merge_mutates_nested_dict_in_place():
+    inner = {"x": 1}
+    base = {"a": inner}
+    result = _merge_merger().merge(base, {"a": {"y": 2}})
+    assert result["a"] is inner
+    assert inner == {"x": 1, "y": 2}
+
+
+def test_dict_override_returns_next_object_unchanged_base():
+    base = {"a": 1, "x": 9}
+    nxt = {"b": 2}
+    result = Merger([(dict, "override")], ["override"], ["override"]).merge(base, nxt)
+    assert result is nxt
+    assert base == {"a": 1, "x": 9}
+
+
+def test_merge_list_values_append_instead_of_merging_elements():
+    base = {"k": [{"a": 1}]}
+    result = always_merger.merge(base, {"k": [{"a": 2}]})
+    assert result == {"k": [{"a": 1}, {"a": 2}]}
+
+
+def test_merge_or_raise_nested_paths_are_tracked():
+    with pytest.raises(InvalidMerge) as exc_info:
+        merge_or_raise.merge({"a": {"b": 1}}, {"a": {"b": "x"}})
+    assert exc_info.value.strategy_list_name == "type conflict"
+    assert exc_info.value.path == ["a", "b"]
+    with pytest.raises(InvalidMerge) as exc_info:
+        merge_or_raise.merge({"a": {"b": 1}}, {"a": {"b": 2}})
+    assert exc_info.value.strategy_list_name == "fallback"
+    assert exc_info.value.path == ["a", "b"]
