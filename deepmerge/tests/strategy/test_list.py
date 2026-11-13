@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 import pytest
+from deepmerge.extended_set import ExtendedSet
 from deepmerge.strategy.list import ListStrategies
 from deepmerge import Merger
 
@@ -111,3 +112,28 @@ def test_strategy_append_unique_distinct_unhashable_tuples(custom_merger):
     base = [([1],)]
     nxt = [([2],)]
     assert custom_merger.merge(base, nxt) == [([1],), ([2],)]
+
+
+def test_strategy_append_unique_identical_nan(custom_merger):
+    """The same float('nan') object is a duplicate, as with a plain set.
+
+    ``nan in {nan}`` is True (CPython's set membership short-circuits on
+    identity), and the original ``set(base)``-based implementation of
+    ``append_unique`` relied on it. The bucket membership check must too.
+    """
+    nan = float("nan")
+    assert custom_merger.merge([nan], [nan]) == [nan]
+
+
+def test_strategy_append_unique_distinct_nan_kept(custom_merger):
+    """Two different NaN objects are not duplicates, as with a plain set."""
+    nan_a = float("nan")
+    nan_b = float("nan")
+    assert custom_merger.merge([nan_a], [nan_b]) == [nan_a, nan_b]
+
+
+def test_extended_set_membership_identity_semantics():
+    """ExtendedSet membership matches set membership for identical NaN."""
+    nan = float("nan")
+    assert nan in {nan}
+    assert nan in ExtendedSet([nan])
