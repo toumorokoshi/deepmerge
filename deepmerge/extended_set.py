@@ -1,6 +1,16 @@
 from typing import Sequence, Any, Dict, List
 
 
+def _is_or_equal(candidate: Any, existing: Any) -> bool:
+    """Identity-first comparison, matching set membership semantics.
+
+    Mirrors CPython's ``PyObject_RichCompareBool`` fast path used by
+    ``set.__contains__``: identical objects count as equal even when
+    ``__eq__`` says otherwise (e.g. the same ``float('nan')`` object).
+    """
+    return candidate is existing or candidate == existing
+
+
 class ExtendedSet(set):
     """
     ExtendedSet is an extension of set, which allows for usage
@@ -24,7 +34,7 @@ class ExtendedSet(set):
 
     def _insert(self, element: Any) -> None:
         bucket = self._buckets.setdefault(self._hash_element(element), [])
-        if not any(element == existing for existing in bucket):
+        if not any(_is_or_equal(element, existing) for existing in bucket):
             bucket.append(element)
         return
 
@@ -46,4 +56,4 @@ class ExtendedSet(set):
         bucket = self._buckets.get(self._hash_element(obj))
         if bucket is None:
             return False
-        return any(obj == existing for existing in bucket)
+        return any(_is_or_equal(obj, existing) for existing in bucket)
