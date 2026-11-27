@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.11", "3.12", "3.13", "3.14", "3.15"]
 
     steps:
     - uses: actions/checkout@v2
@@ -34,14 +34,14 @@ jobs:
       run: |
         make build
     - name: lint
-      if: ${{ matrix.python-version == '3.12' }}
+      if: ${{ matrix.python-version == '3.15' }}
       run: |
         make lint
     - name: test
       run: |
         make test
     - name: pypi-release
-      if: ${{ startsWith(github.ref, 'refs/tags/') && matrix.python-version == '3.12' }}
+      if: ${{ startsWith(github.ref, 'refs/tags/') && matrix.python-version == '3.15' }}
       uses: pypa/gh-action-pypi-publish@master
       with:
         password: ${{ secrets.PYPI_API_TOKEN }}
