@@ -47,3 +47,33 @@ class ExtendedSet(set):
         if bucket is None:
             return False
         return any(obj == existing for existing in bucket)
+
+    def __iter__(self) -> Any:
+        for bucket in self._buckets.values():
+            yield from bucket
+
+    def __len__(self) -> int:
+        return sum(len(bucket) for bucket in self._buckets.values())
+
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, ExtendedSet):
+            return len(self) == len(other) and all(x in other for x in self)
+        if isinstance(other, (set, frozenset)):
+            # A real set can only contain hashable values, so an
+            # ExtendedSet holding unhashable values can never equal one.
+            # Note: set(...) cannot take self directly, as the constructor
+            # copies the underlying set storage instead of iterating self.
+            try:
+                return set(list(self)) == other
+            except TypeError:
+                return False
+        return NotImplemented
+
+    def __ne__(self, other: object) -> bool:
+        result = self.__eq__(other)
+        if result is NotImplemented:
+            return result
+        return not result
+
+    def __repr__(self) -> str:
+        return f"{type(self).__name__}({list(self)!r})"
